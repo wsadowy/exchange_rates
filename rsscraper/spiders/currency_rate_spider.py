@@ -37,7 +37,8 @@ class CurrencySpider(scrapy.Spider):
             appendix = li.xpath('a/@href').get()
             if not appendix:
                 continue
-            appendix = appendix[1:]
+            if appendix.startswith('/'):
+                appendix = appendix[1:]
             currency_url = path.join(self.main_url, appendix)
             request = scrapy.Request(currency_url, callback=self._parse_currency_details)
             yield request
